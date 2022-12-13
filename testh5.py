@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import os
 
-model = tf.keras.models.load_model("mainet.h5")
+model = tf.keras.models.load_model("oldmainet.h5")
 
 def conv_img(img):
     # rescale to big to ensure enough pixel data
