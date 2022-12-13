@@ -25,16 +25,18 @@ input_path = []
 label = []
 
 for cls in os.listdir("Data"):
+    print("Found ", cls)
     for path in os.listdir(os.path.join("Data", cls)):
-        if cls == 'Normal':
+        print(cls)
+        if cls == 'HeatStress':
             label.append(0)
         else:
             label.append(1)
         input_path.append(os.path.join("Data", cls, path))
     print(input_path[0], label[0])
 
-len(label)
-len(input_path)
+print("LABELS -> ", len(label))
+print("LABELS Paths-> ",len(input_path))
 
 df = pd.DataFrame()
 df['images'] = input_path
@@ -45,11 +47,6 @@ df.head()
 for i in df['images']:
     if '.jpg' not in i:
         print(i)
-
-df = df[df['images'] != 'Data/HeatStress/Thumbs.db']
-df = df[df['images'] != 'Data/Normal/Thumbs.db']
-df = df[df['images'] != 'Data/HeatStress/11702.jpg']
-df = df[df['images'] != 'Data/Normal/666.jpg']
 
 len(df)
 
@@ -115,7 +112,7 @@ train_iterator = train_generator.flow_from_dataframe(
     train, 
     x_col='images', 
     y_col='label', 
-    target_size=(128,128), 
+    target_size=(120,120), 
     batch_size=512, 
     class_mode='binary'
     )
@@ -124,7 +121,7 @@ val_iterator = train_generator.flow_from_dataframe(
     test, 
     x_col='images', 
     y_col='label', 
-    target_size=(128,128), 
+    target_size=(120,120), 
     batch_size=512, 
     class_mode='binary'
     )

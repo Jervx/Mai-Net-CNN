@@ -11,8 +11,11 @@ bases = ['detection-june','detection-nov']
 bases2 = ['detection-nov']
 basedir = 'detection-nov'
 base = os.listdir(basedir)
-skipsave = True
+skipsave = False
 debug = True
+debugLimit = 2
+
+toShape = (10, 10)
 
 def folderRemover(path):
     try:
@@ -49,14 +52,14 @@ def reference(BS):
             lists = os.listdir(pth2)
             for foc in lists:
                 lastpath = os.path.join(pth2, foc)
+                if(dataname >= debugLimit and debug): return
                 if "unprocessed" in foc :
                     stmp = time.time()
-                    if(dataname == 5 and debug): return
                     img = cv2.imread(lastpath)
                     print(f'Moving->{BASE} Reference/{stmp}.jpg -> {np.average(img)}', end='\r ')
                     if skipsave : continue
                     cv2.imwrite(f'Reference/{stmp}.jpg', img)
-                    dataname += 1
+                dataname += 1
 
 def HeatStress(BS):
     dataname = 0
@@ -67,18 +70,19 @@ def HeatStress(BS):
             lists = os.listdir(pth2)
             for foc in lists:
                 lastpath = os.path.join(pth2, foc)
+                if(dataname >= debugLimit and debug): return
                 if "unprocessed" in foc :
                     stmp = time.time()
-                    if(dataname == 5 and debug): return
                     img = cv2.imread(lastpath)
-                    img = cv2.resize(img, (10,20))
+                    # img = cv2.resize(img, toShape)
                     bfravg = np.average(img)
-                    img = randomizer(img, 33, 40, 36, 43)
+                    cv2.imwrite("Data/Normal/original.jpg", img)
+                    img = randomizer(img, 33, 40, 37, 43)
                     print(img)
                     # print(f'Moving->{BASE} Data/HeatStress/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
                     if skipsave : continue
                     cv2.imwrite(f'Data/HeatStress/{stmp}.jpg', img)
-                    dataname += 1
+                dataname += 1
 
 def Normal(BS):
     dataname = 0
@@ -89,18 +93,18 @@ def Normal(BS):
             lists = os.listdir(pth2)
             for foc in lists:
                 lastpath = os.path.join(pth2, foc)
+                if(dataname == debugLimit and debug): return
                 if "unprocessed" in foc :
                     stmp = time.time()
-                    if(dataname == 5 and debug): return
                     img = cv2.imread(lastpath)
-                    img = cv2.resize(img, (10,20))
+                    img = cv2.resize(img, toShape)
                     bfravg = np.average(img)
                     img = randomizer(img, 18, 33, 18, 36)
-                    print(img)
+                    print(np.array(img))
                     # print(f'Moving->{BASE} Data/Normal/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
                     if skipsave : continue
                     cv2.imwrite(f'Data/Normal/{stmp}.jpg', img)
-                    dataname += 1
+                dataname += 1
 
 def YoloDataGen(BS):
     dataname = 0
@@ -117,7 +121,5 @@ def YoloDataGen(BS):
             dataname += 1
 
 # reference()
-print("Pass 1 Heat")
 HeatStress(bases2);
-print("Pass 1 Norm")
-Normal(bases2);
+# Normal(bases2);

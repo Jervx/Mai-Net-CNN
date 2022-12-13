@@ -1,3 +1,5 @@
 detection*
 Data
 .ipynb_checkpoints
+tester
+*.h5
