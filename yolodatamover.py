@@ -71,9 +71,11 @@ def HeatStress(BS):
                     stmp = time.time()
                     if(dataname == 5 and debug): return
                     img = cv2.imread(lastpath)
+                    img = cv2.resize(img, (10,20))
                     bfravg = np.average(img)
                     img = randomizer(img, 33, 40, 36, 43)
-                    print(f'Moving->{BASE} Data/HeatStress/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
+                    print(img)
+                    # print(f'Moving->{BASE} Data/HeatStress/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
                     if skipsave : continue
                     cv2.imwrite(f'Data/HeatStress/{stmp}.jpg', img)
                     dataname += 1
@@ -91,9 +93,11 @@ def Normal(BS):
                     stmp = time.time()
                     if(dataname == 5 and debug): return
                     img = cv2.imread(lastpath)
+                    img = cv2.resize(img, (10,20))
                     bfravg = np.average(img)
                     img = randomizer(img, 18, 33, 18, 36)
-                    print(f'Moving->{BASE} Data/Normal/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
+                    print(img)
+                    # print(f'Moving->{BASE} Data/Normal/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
                     if skipsave : continue
                     cv2.imwrite(f'Data/Normal/{stmp}.jpg', img)
                     dataname += 1
