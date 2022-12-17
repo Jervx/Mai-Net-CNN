@@ -12,10 +12,11 @@ bases2 = ['detection-nov']
 basedir = 'detection-nov'
 base = os.listdir(basedir)
 skipsave = False
-debug = True
+debug = False
 debugLimit = 2
 
 toShape = (10, 10)
+deleteGen = False
 
 def folderRemover(path):
     try:
@@ -23,14 +24,15 @@ def folderRemover(path):
     except OSError as e:
         print ("Error: %s - %s." % (e.filename, e.strerror))
 
-folderRemover("Data")
-folderRemover("PigRoboflow")
+if deleteGen:
+    folderRemover("Data")
+    folderRemover("PigRoboflow")
 
-time.sleep(1)
+    time.sleep(1)
 
-os.makedirs(os.path.join("Data","HeatStress"))
-os.makedirs(os.path.join("Data","Normal"))
-os.makedirs("PigRoboflow")
+    os.makedirs(os.path.join("Data","HeatStress"))
+    os.makedirs(os.path.join("Data","Normal"))
+    os.makedirs("PigRoboflow")
 
 def randomizer( img, targMin, targMax , min, max):
     r, c, _ = img.shape
@@ -76,10 +78,8 @@ def HeatStress(BS):
                     img = cv2.imread(lastpath)
                     # img = cv2.resize(img, toShape)
                     bfravg = np.average(img)
-                    cv2.imwrite("Data/Normal/original.jpg", img)
-                    img = randomizer(img, 33, 40, 37, 43)
-                    print(img)
-                    # print(f'Moving->{BASE} Data/HeatStress/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
+                    img = randomizer(img, 33, 50, 38, 45)
+                    print(f'Moving->{BASE} Data/HeatStress/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
                     if skipsave : continue
                     cv2.imwrite(f'Data/HeatStress/{stmp}.jpg', img)
                 dataname += 1
@@ -97,11 +97,9 @@ def Normal(BS):
                 if "unprocessed" in foc :
                     stmp = time.time()
                     img = cv2.imread(lastpath)
-                    img = cv2.resize(img, toShape)
                     bfravg = np.average(img)
-                    img = randomizer(img, 18, 33, 18, 36)
-                    print(np.array(img))
-                    # print(f'Moving->{BASE} Data/Normal/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
+                    img = randomizer(img, 20, 40, 20, 36)
+                    print(f'Moving->{BASE} Data/Normal/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
                     if skipsave : continue
                     cv2.imwrite(f'Data/Normal/{stmp}.jpg', img)
                 dataname += 1
@@ -121,5 +119,7 @@ def YoloDataGen(BS):
             dataname += 1
 
 # reference()
-HeatStress(bases2);
-# Normal(bases2);
+HeatStress(bases2)
+Normal(bases2)
+#HeatStress(bases2)
+#Normal(bases2)
