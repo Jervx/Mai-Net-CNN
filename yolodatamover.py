@@ -16,7 +16,7 @@ debug = False
 debugLimit = 2
 
 toShape = (10, 10)
-deleteGen = False
+deleteGen = True
 
 def folderRemover(path):
     try:
