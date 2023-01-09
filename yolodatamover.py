@@ -98,7 +98,7 @@ def Normal(BS):
                     stmp = time.time()
                     img = cv2.imread(lastpath)
                     bfravg = np.average(img)
-                    img = randomizer(img, 20, 40, 20, 36)
+                    # img = randomizer(img, 20, 40, 20, 37)
                     print(f'Moving->{BASE} Data/Normal/{stmp}.jpg -> {bfravg} : {np.average(img)}', end='\r ')
                     if skipsave : continue
                     cv2.imwrite(f'Data/Normal/{stmp}.jpg', img)
